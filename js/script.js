@@ -49,9 +49,9 @@ messageForm.addEventListener('submit', function(event) {
   
 
   var form = {
-    name:messageForm[0].value,
-    email:messageForm[1].value,
-    message:messageForm[2].value
+    "name" : messageForm[0].value,
+    "email" : messageForm[1].value,
+    "message": messageForm[2].value
   }
   
 
