@@ -35,28 +35,28 @@ document.querySelector("#bcontact").addEventListener("click", () => {
 });
 
 
-
+// Form handler
 messageForm.addEventListener('submit', function(event) {
   event.preventDefault();
   var messageForm = document.getElementById('messageForm');
-  
+  var loader = document.getElementById("loader-div");
+  var alertSuccess = document.getElementById("alert-success");
+  var alertDanger = document.getElementById("alert-danger");
+
+  loader.style.display = "block";
+  messageForm.style.display = "none";
+
   // 1. Setup the request
-  // ================================
   // 1.1 Headers
   var headers = new Headers();
   // Tell the server we want JSON back
   headers.set('Accept', 'application/json');
-  
-
   var form = {
     "name" : messageForm[0].value,
     "email" : messageForm[1].value,
     "message": messageForm[2].value
   }
-  
-
   // 2. Make the request
-  // ================================
   var url = 'https://ct7wgzpknj.execute-api.eu-west-2.amazonaws.com/Dev';
   var fetchOptions = {
     method: 'POST',
@@ -65,22 +65,21 @@ messageForm.addEventListener('submit', function(event) {
   };
   
   var responsePromise = fetch(url, fetchOptions);
-  
   // 3. Use the response
-  // ================================
   responsePromise
-  	// 3.1 Convert the response into JSON-JS object.
     .then(function(response) {
       return response.json();
     })
-    // 3.2 Do something with the JSON data
     .then(function(jsonData) {
-    	console.log(jsonData);
+      loader.style.display = "none";
+    	if(jsonData.successMessage) {
+        alertSuccess.style.display = "block";  
+      } else if(jsonData.errorMessage) {
+        alertDanger.style.display = "block";
+      }
     })
     .catch(function(error) {
-      console.log(error);
+      loader.style.display = "none";
+      alertDanger.style.display = "block";
     })
-  
-
-  
 });
