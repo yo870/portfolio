@@ -10,7 +10,7 @@ html,body {
   box-shadow: none !important;
 }
 
-#bhome, #bprojects, #bcontact {
+#bhome, #bprojects, #bcontact, button {
 	cursor: pointer;
 }
 

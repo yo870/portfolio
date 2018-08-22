@@ -43,8 +43,10 @@ messageForm.addEventListener('submit', function(event) {
   var alertSuccess = document.getElementById("alert-success");
   var alertDanger = document.getElementById("alert-danger");
 
-  loader.style.display = "block";
+  alertSuccess.style.display = "none";
+  alertDanger.style.display = "none";
   messageForm.style.display = "none";
+  loader.style.display = "block";
 
   // 1. Setup the request
   // 1.1 Headers
@@ -57,7 +59,7 @@ messageForm.addEventListener('submit', function(event) {
     "message": messageForm[2].value
   }
   // 2. Make the request
-  var url = 'https://ct7wgzpknj.execute-api.eu-west-2.amazonaws.com/Dev';
+  var url = 'https://ct7wgzpknj.execute-api.eu-west-2.amazonaws.com/Prod';
   var fetchOptions = {
     method: 'POST',
     headers,
@@ -73,13 +75,19 @@ messageForm.addEventListener('submit', function(event) {
     .then(function(jsonData) {
       loader.style.display = "none";
     	if(jsonData.successMessage) {
+        messageForm[0].value = "";
+        messageForm[1].value = "";
+        messageForm[2].value = "";
         alertSuccess.style.display = "block";  
       } else if(jsonData.errorMessage) {
         alertDanger.style.display = "block";
+        messageForm.style.display = "block";
       }
     })
     .catch(function(error) {
       loader.style.display = "none";
       alertDanger.style.display = "block";
+      messageForm.style.display = "block";
     })
+
 });
